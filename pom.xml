@@ -24,6 +24,7 @@
         <springdoc-openapi.version>1.6.11</springdoc-openapi.version>
         <junit-jupiter.version>5.9.0</junit-jupiter.version>
         <mockito.version>4.7.0</mockito.version>
+        <jackson-datatype-jsr310.version>2.13.3</jackson-datatype-jsr310.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-datatype-jsr310.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

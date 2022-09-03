@@ -16,6 +16,7 @@ import java.util.Optional;
 import static com.mpusinhol.temperaturesensorapi.service.mock.TemperatureServiceTestFixture.getTemperatureInput;
 import static com.mpusinhol.temperaturesensorapi.service.mock.TemperatureServiceTestFixture.getTemperatureOutput;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
