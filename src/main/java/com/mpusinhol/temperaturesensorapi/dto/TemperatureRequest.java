@@ -1,5 +1,6 @@
 package com.mpusinhol.temperaturesensorapi.dto;
 
+import com.mpusinhol.temperaturesensorapi.model.TemperatureUnit;
 import com.mpusinhol.temperaturesensorapi.validation.ValidTemperatureUnit;
 
 import javax.validation.constraints.NotNull;
@@ -9,7 +10,7 @@ public record TemperatureRequest(
         @NotNull
         Integer value,
         @ValidTemperatureUnit
-        String unit,
+        TemperatureUnit unit,
         @NotNull
         Instant timestamp) {
 }

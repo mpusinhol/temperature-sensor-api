@@ -1,6 +1,7 @@
 package com.mpusinhol.temperaturesensorapi.resource.exception;
 
 import com.mpusinhol.temperaturesensorapi.dto.StandardError;
+import com.mpusinhol.temperaturesensorapi.exception.DuplicatedTemperatureException;
 import com.mpusinhol.temperaturesensorapi.exception.InvalidTemperatureUnitException;
 import com.mpusinhol.temperaturesensorapi.exception.ObjectNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,8 +30,8 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> constraintViolation(DataIntegrityViolationException exception, HttpServletRequest request) {
+    @ExceptionHandler(DuplicatedTemperatureException.class)
+    public ResponseEntity<StandardError> constraintViolation(DuplicatedTemperatureException exception, HttpServletRequest request) {
         StandardError error = new StandardError(HttpStatus.CONFLICT.value(), exception.getMessage(), Instant.now());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
