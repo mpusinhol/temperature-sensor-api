@@ -11,5 +11,5 @@ public record Temperature(
         Long id,
         Integer value,
         TemperatureUnit unit,
-        Instant createdAt) {
+        Instant timestamp) {
 }

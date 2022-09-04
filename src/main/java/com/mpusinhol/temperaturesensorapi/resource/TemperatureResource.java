@@ -1,9 +1,11 @@
 package com.mpusinhol.temperaturesensorapi.resource;
 
 import com.mpusinhol.temperaturesensorapi.dto.Temperature;
+import com.mpusinhol.temperaturesensorapi.dto.TemperatureRequest;
+import com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper;
 import com.mpusinhol.temperaturesensorapi.service.TemperatureService;
-import com.mpusinhol.temperaturesensorapi.service.impl.TemperatureServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
+import javax.validation.Valid;
+import java.util.List;
 
 import static com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper.toDTO;
 import static com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper.toModel;
@@ -21,21 +24,30 @@ import static com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper.toMode
 @RestController
 @RequestMapping(value = "/temperatures")
 @RequiredArgsConstructor
+@Slf4j
 public class TemperatureResource {
 
     private final TemperatureService temperatureService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody Temperature temperatureRequest) {
-        var temperature = toModel(temperatureRequest);
-        temperature = temperatureService.create(temperature);
+    public ResponseEntity<Void> create(@RequestBody @Valid List<TemperatureRequest> temperatureRequest) {
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(temperature.getId())
-                .toUri();
+        if (temperatureRequest.size() == 1) {
+            var temperature = toModel(temperatureRequest.get(0));
+            temperatureService.create(temperature);
 
-        return ResponseEntity.created(uri).build();
+            var uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(temperature.getId())
+                    .toUri();
+
+            return ResponseEntity.created(uri).build();
+        }
+
+        var temperatures = temperatureRequest.stream().map(TemperatureMapper::toModel).toList();
+        temperatureService.create(temperatures);
+
+        return ResponseEntity.accepted().build();
     }
 
     @GetMapping(value = "/{id}")

@@ -2,6 +2,7 @@ package com.mpusinhol.temperaturesensorapi.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mpusinhol.temperaturesensorapi.dto.StandardError;
+import com.mpusinhol.temperaturesensorapi.dto.TemperatureRequest;
 import com.mpusinhol.temperaturesensorapi.exception.ObjectNotFoundException;
 import com.mpusinhol.temperaturesensorapi.model.Temperature;
 import com.mpusinhol.temperaturesensorapi.service.TemperatureService;
@@ -17,8 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.mpusinhol.temperaturesensorapi.service.mock.TemperatureServiceTestFixture.getTemperatureInput;
-import static com.mpusinhol.temperaturesensorapi.service.mock.TemperatureServiceTestFixture.getTemperatureOutput;
+import java.util.List;
+
+import static com.mpusinhol.temperaturesensorapi.fixture.TemperatureFixture.getTemperatureOutput;
+import static com.mpusinhol.temperaturesensorapi.fixture.TemperatureFixture.getTemperatureRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,24 +42,34 @@ public class TemperatureResourceTest {
 
     @Test
     @SneakyThrows
-    @DisplayName("Create temperature - happy flow")
-    void createHappyFlow() {
-        Temperature input = getTemperatureInput();
-        Temperature output = getTemperatureOutput();
-
-        when(temperatureService.create(input)).thenReturn(output);
+    @DisplayName("Create temperature - single item")
+    void createSingleItem() {
+        List<TemperatureRequest> request = getTemperatureRequest(1);
 
         String response = mockMvc.perform(
                 MockMvcRequestBuilders.post("/temperatures")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"value\": 30, \"unit\": \"CELSIUS\"}"))
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getHeader("Location");
 
         assertNotNull(response);
-        assertTrue(response.endsWith("/temperatures/1"));
+        assertTrue(response.contains("/temperatures/"));
+    }
+
+    @Test
+    @SneakyThrows
+    @DisplayName("Create temperature - multiple items")
+    void createBatched() {
+        List<TemperatureRequest> request = getTemperatureRequest(10);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/temperatures")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
     @Test
