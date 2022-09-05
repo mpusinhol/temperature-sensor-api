@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "272c21c7-392b-4fc9-af0d-ae10f34479cc",
+		"name": "temperature-sensor-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n    \"value\": 30,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-04T11:31:41Z\"\n},{\n    \"value\": 29,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-03T11:31:41Z\"\n},{\n    \"value\": 31,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-03T11:40:41Z\"\n},{\n    \"value\": 29,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-03T10:31:41Z\"\n},{\n    \"value\": 29,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-04T11:10:41Z\"\n},{\n    \"value\": 25,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-02T11:31:41Z\"\n},{\n    \"value\": 25,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-02T11:31:39Z\"\n},{\n    \"value\": 24,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-01T02:31:41Z\"\n},{\n    \"value\": 15,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-05T11:55:41Z\"\n},{\n    \"value\": 15,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-05T11:56:41Z\"\n},{\n    \"value\": 16,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-05T11:56:42Z\"\n},{\n    \"value\": 10,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-01T01:31:41Z\"\n},{\n    \"value\": 11,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-01T03:31:41Z\"\n},{\n    \"value\": 12,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-01T05:31:41Z\"\n},{\n    \"value\": 16,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-08T11:31:41Z\"\n},{\n    \"value\": 15,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-08T11:45:41Z\"\n},{\n    \"value\": 15,\n    \"unit\": \"celsius\",\n    \"timestamp\": \"2022-09-08T10:31:41Z\"\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/temperatures",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"temperatures"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/temperatures?aggregate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"temperatures"
+					],
+					"query": [
+						{
+							"key": "aggregate",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All (Daily)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/temperatures?aggregate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"temperatures"
+					],
+					"query": [
+						{
+							"key": "aggregate",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find All (Hourly",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/temperatures?aggregate=HOURLY",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"temperatures"
+					],
+					"query": [
+						{
+							"key": "aggregate",
+							"value": "HOURLY"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/temperatures/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"temperatures",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
