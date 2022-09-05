@@ -1,7 +1,8 @@
-package com.mpusinhol.temperaturesensorapi.validation;
+package com.mpusinhol.temperaturesensorapi.validation.validator;
 
 import com.mpusinhol.temperaturesensorapi.exception.InvalidTemperatureUnitException;
 import com.mpusinhol.temperaturesensorapi.model.TemperatureUnit;
+import com.mpusinhol.temperaturesensorapi.validation.ValidTemperatureUnit;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

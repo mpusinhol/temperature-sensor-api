@@ -4,13 +4,13 @@ import com.mpusinhol.temperaturesensorapi.dto.AggregationMode;
 import com.mpusinhol.temperaturesensorapi.dto.TemperatureRequest;
 import com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper;
 import com.mpusinhol.temperaturesensorapi.model.Temperature;
-import com.mpusinhol.temperaturesensorapi.model.TemperatureUnit;
 import com.mpusinhol.temperaturesensorapi.service.TemperatureService;
-import com.mpusinhol.temperaturesensorapi.validation.ValidTemperatureUnit;
+import com.mpusinhol.temperaturesensorapi.validation.ValidAggregationMode;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,12 +31,15 @@ import static com.mpusinhol.temperaturesensorapi.mapper.TemperatureMapper.toMode
 @RequestMapping(value = "/temperatures")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class TemperatureResource {
 
     private final TemperatureService temperatureService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid List<TemperatureRequest> temperatureRequest) {
+    public ResponseEntity<Void> create(
+            @RequestBody @Valid
+            List<TemperatureRequest> temperatureRequest) {
 
         if (temperatureRequest.size() == 1) {
             Temperature temperature = toModel(temperatureRequest.get(0));
@@ -59,9 +62,12 @@ public class TemperatureResource {
     @GetMapping
     public ResponseEntity<Map<String, List<Temperature>>> findAll(
             @RequestParam(value = "aggregate", required = false)
-            AggregationMode aggregationMode) {
+            @Valid
+            @ValidAggregationMode
+            @Parameter(allowEmptyValue = true, description = "Available values are DAILY, HOURLY or NONE")
+            String aggregate) {
 
-        aggregationMode = aggregationMode == null ? AggregationMode.NONE : aggregationMode;
+        AggregationMode aggregationMode = aggregate == null ? AggregationMode.NONE : AggregationMode.valueOf(aggregate.toUpperCase());
         Map<String, List<Temperature>> aggregatedTemperatures = temperatureService.findAll(aggregationMode);
 
         return ResponseEntity.ok(aggregatedTemperatures);

@@ -77,10 +77,10 @@ public class TemperatureFixture {
     }
 
     public static TemperatureRequest getTemperatureRequestObject() {
-        return new TemperatureRequest(30, TemperatureUnit.CELSIUS, Instant.now());
+        return new TemperatureRequest(30, "CELSIUS", Instant.now());
     }
 
-    public static TemperatureRequest getTemperatureRequestObject(Integer value, TemperatureUnit unit, Instant timestamp) {
+    public static TemperatureRequest getTemperatureRequestObject(Integer value, String unit, Instant timestamp) {
         return new TemperatureRequest(value, unit, timestamp);
     }
 
@@ -89,7 +89,7 @@ public class TemperatureFixture {
 
         IntStream.range(0, numberOfItems)
                 .forEach(i -> {
-                    TemperatureRequest temperatureRequest = getTemperatureRequestObject(30, TemperatureUnit.CELSIUS,
+                    TemperatureRequest temperatureRequest = getTemperatureRequestObject(30, "CELSIUS",
                             Instant.now().plus(i, ChronoUnit.SECONDS));
                     request.add(temperatureRequest);
                 });
